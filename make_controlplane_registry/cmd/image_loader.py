@@ -32,19 +32,21 @@ CACHE = FanoutCache(
 # NOTE(mnaser): This is a list of all the Kubernetes versions which we've
 #               released images for.  This list is used to determine which
 #               images of Kubernetes we should publish to the registry.
-VERSIONS = [ "v1.22.17" ]
-
-#VERSIONS = [
-#    "v1.23.13",
-#    "v1.23.17",
-#    "v1.24.7",
-#    "v1.24.15",
-#    "v1.25.3",
-#    "v1.25.11",
-#    "v1.26.2",
-#    "v1.26.6",
-#    "v1.27.3",
-#]
+VERSIONS = [
+    "v1.22.17",
+    "v1.23.13",
+    "v1.23.17",
+    "v1.24.7",
+    "v1.24.15",
+    "v1.25.3",
+    "v1.25.11",
+    "v1.26.2",
+    "v1.26.3",
+    "v1.26.6",
+    "v1.26.11",
+    "v1.27.3",
+    "v1.27.8",
+]
 
 
 @click.command()
@@ -85,6 +87,9 @@ def main(repository, parallel, insecure):
         + _get_cilium_images()
         + _get_cert_manager_images()
         + _get_capi_images()
+        + _get_calico_images()
+        + _get_cloud_provider_images()
+        + _get_infra_images()
     )
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as executor:
@@ -184,13 +189,71 @@ def _get_cert_manager_images():
       "quay.io/jetstack/cert-manager-cainjector:v1.12.2",
       "quay.io/jetstack/cert-manager-controller:v1.12.2",
       "quay.io/jetstack/cert-manager-webhook:v1.12.2",
+      # Cert manager 1.7.1
+      "quay.io/jetstack/cert-manager-ctl:v1.7.1",
+      "quay.io/jetstack/cert-manager-cainjector:v1.7.1",
+      "quay.io/jetstack/cert-manager-controller:v1.7.1",
+      "quay.io/jetstack/cert-manager-webhook:v1.7.1",
     ]
 
 def _get_capi_images():
     # cluster api 1.4.4
+    # cluster api 1.5.1
     return [
       "registry.k8s.io/cluster-api/cluster-api-controller:v1.4.4",
       "registry.k8s.io/cluster-api/kubeadm-bootstrap-controller:v1.4.4",
       "registry.k8s.io/cluster-api/kubeadm-control-plane-controller:v1.4.4",
+      "registry.k8s.io/cluster-api/cluster-api-controller:v1.5.1",
+      "registry.k8s.io/cluster-api/kubeadm-bootstrap-controller:v1.5.1",
+      "registry.k8s.io/cluster-api/kubeadm-control-plane-controller:v1.5.1",
       "registry.k8s.io/capi-openstack/capi-openstack-controller:v0.8.0"
+    ]
+
+
+def _get_calico_images():
+    return [
+        # Calico 3.24.2
+        "docker.io/calico/cni:v3.24.2",
+        "docker.io/calico/kube-controllers:v3.24.2",
+        "docker.io/calico/node:v3.24.2",
+    ]
+
+
+def _get_cloud_provider_images():
+    return [
+        # 1.24.6
+        "registry.k8s.io/provider-os/cinder-csi-plugin:v1.24.6",
+        "registry.k8s.io/provider-os/manila-csi-plugin:v1.24.6",
+        "registry.k8s.io/provider-os/openstack-cloud-controller-manager:v1.24.6",
+        # v1.25.3
+        "docker.io/k8scloudprovider/cinder-csi-plugin:v1.25.3",
+        "docker.io/k8scloudprovider/manila-csi-plugin:v1.25.3",
+        "docker.io/k8scloudprovider/openstack-cloud-controller-manager:v1.25.3",
+        # v1.25.6
+        "registry.k8s.io/provider-os/cinder-csi-plugin:v1.25.6",
+        "registry.k8s.io/provider-os/manila-csi-plugin:v1.25.6",
+        "registry.k8s.io/provider-os/openstack-cloud-controller-manager:v1.25.6",
+        # v1.26.3
+        "registry.k8s.io/provider-os/cinder-csi-plugin:v1.26.3",
+        "registry.k8s.io/provider-os/manila-csi-plugin:v1.26.3",
+        "registry.k8s.io/provider-os/openstack-cloud-controller-manager:v1.26.3",
+    ]
+
+
+def _get_infra_images():
+    return [
+        "registry.k8s.io/sig-storage/csi-attacher:v3.4.0",
+        "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.4.0",
+        "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.5.1",
+        "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.6.2",
+        "registry.k8s.io/sig-storage/csi-provisioner:v3.0.0",
+        "registry.k8s.io/sig-storage/csi-provisioner:v3.1.0",
+        "registry.k8s.io/sig-storage/csi-provisioner:v3.3.0",
+        "registry.k8s.io/sig-storage/csi-resizer:v1.4.0",
+        "registry.k8s.io/sig-storage/csi-resizer:v1.8.0",
+        "registry.k8s.io/sig-storage/csi-snapshotter:v5.0.1",
+        "registry.k8s.io/sig-storage/csi-snapshotter:v6.0.1",
+        "registry.k8s.io/sig-storage/livenessprobe:v2.7.0",
+        "registry.k8s.io/sig-storage/livenessprobe:v2.8.0",
+        "registry.k8s.io/sig-storage/nfsplugin:v4.2.0",
     ]

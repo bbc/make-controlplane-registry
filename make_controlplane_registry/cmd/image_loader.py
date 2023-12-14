@@ -206,7 +206,8 @@ def _get_capi_images():
       "registry.k8s.io/cluster-api/cluster-api-controller:v1.5.1",
       "registry.k8s.io/cluster-api/kubeadm-bootstrap-controller:v1.5.1",
       "registry.k8s.io/cluster-api/kubeadm-control-plane-controller:v1.5.1",
-      "anon.artifactory.labs.bbc/artifactory/scaled-infra-public-docker/capi-openstack-controller:v0.8.0",
+      "scaled-infra-public-docker.artifactory.labs.bbc/capi-openstack-controller:v0.8.0",
+      "scaled-infra-public-docker.artifactory.labs.bbc/capi-openstack-controller:v0.8.0-bbc",
 #      "registry.k8s.io/capi-openstack/capi-openstack-controller:v0.8.0",
     ]
 

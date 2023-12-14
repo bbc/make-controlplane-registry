@@ -57,6 +57,8 @@ def get_image(name: str, repository: str = None):
         return name
 
     new_image_name = name
+    if name.startswith("scaled-infra-public-docker.artifactory.labs.bbc"):
+        new_image_name = name.replace("scaled-infra-public-docker.artifactory.labs.bbc", repository)
     if name.startswith("quay.io/cilium"):
         new_image_name = name.replace("quay.io/cilium", repository)
     if name.startswith("quay.io/jetstack"):
